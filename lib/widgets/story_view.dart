@@ -803,8 +803,11 @@ class PageBarState extends State<PageBar> {
       children: widget.pages.map((it) {
         return Expanded(
           child: Container(
-            padding: EdgeInsets.only(
-                right: widget.pages.last == it ? 0 : this.spacing),
+            // Symmetric horizontal padding so every segment is the SAME width
+            // with even gaps. The previous `right: last ? 0 : spacing` left the
+            // last segment ~`spacing`px wider than the rest, so it looked like
+            // the last two were concatenated.
+            padding: EdgeInsets.symmetric(horizontal: this.spacing / 2),
             child: StoryProgressIndicator(
               isPlaying(it) ? widget.animation!.value : (it.shown ? 1 : 0),
               indicatorHeight: widget.indicatorHeight == IndicatorHeight.large
